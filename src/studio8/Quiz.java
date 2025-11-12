@@ -6,12 +6,15 @@ import support.cse131.NotYetImplementedException;
 
 public class Quiz {
 	
+	private Question[] questions;
+	private int length;
 	/**
 	 * Constructor
 	 * @param questions
 	 */
 	public Quiz(Question[] questions) {
-		throw new NotYetImplementedException();
+		this.questions = questions;
+		this.length = questions.length;
 	}
 	
 	/**
@@ -30,7 +33,11 @@ public class Quiz {
 	 * @return int number of total points
 	 */
 	public int getTotalPoints() {
-		throw new NotYetImplementedException();
+		int sum = 0;
+		for (int i = 0; i < this.length; i++){
+			sum += this.questions[i].getPoints();
+		}
+		return sum;
 	}
 	
 	/**
@@ -41,11 +48,23 @@ public class Quiz {
 	 * @param in Scanner object to feed into getUserAnswer
 	 */
 	public void takeQuiz(Scanner in) {
-		throw new NotYetImplementedException();
+		
+		for(int i = 0; i < this.length; i++){
+			this.questions[i].displayPrompt();
+			String answer = this.getUserAnswer(in);
+			System.out.println(this.questions[i].checkAnswer(answer));
+		}
 	}
 	
 	
 	public static void main(String[] args) {
-		// TODO: Make your own Quiz!
+		String [] and = {"Daniel's Ukelele Concert", "Danforth University Center", "Dodson Uncle Catastrophy"};
+		Question a = new MultipleChoiceQuestion("What does DUC stand for?", "2", 4, and);
+		Question c = new SelectAllQuestion("Test","123" , new String[] {"A", "B", "C", "D"});
+		Question[] q = {new Question("What is the capital of Massachusetts?", "Boston", 5), a, c};
+
+		Quiz b = new Quiz(q);
+		Scanner in = new Scanner(System.in);
+		b.takeQuiz(in);
 	}
 }
